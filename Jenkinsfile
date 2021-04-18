@@ -77,7 +77,6 @@ pipeline {
             }
         }
 
-
         // stage('Integration Tests') {
         //     when {
         //         branch 'master'
