@@ -36,46 +36,46 @@ pipeline {
             }
         }
 
-        stage('Unit Tests') {
-            steps {
-                echo 'running unit tests in the builder image.'
-                script {
-                    builderImage.inside('-v $WORKSPACE:/output -u root') {
-                    sh """
-                       cd /output
-                       lein test
-                    """
-                    }
-                }
-            }
-        }
+        // stage('Unit Tests') {
+        //     steps {
+        //         echo 'running unit tests in the builder image.'
+        //         script {
+        //             builderImage.inside('-v $WORKSPACE:/output -u root') {
+        //             sh """
+        //                cd /output
+        //                lein test
+        //             """
+        //             }
+        //         }
+        //     }
+        // }
 
-        stage('Build Production Image') {
-            steps {
-                echo 'Starting to build docker image'
-                script {
-                    productionImage = docker.build("${ACCOUNT_REGISTRY_PREFIX}/example-webapp-simranghotra:${GIT_COMMIT_HASH}")
-                    productionImage.push()
-                    productionImage.push("${env.GIT_BRANCH}")
-                }
-            }
-        }
+        // stage('Build Production Image') {
+        //     steps {
+        //         echo 'Starting to build docker image'
+        //         script {
+        //             productionImage = docker.build("${ACCOUNT_REGISTRY_PREFIX}/example-webapp-simranghotra:${GIT_COMMIT_HASH}")
+        //             productionImage.push()
+        //             productionImage.push("${env.GIT_BRANCH}")
+        //         }
+        //     }
+        // }
 
  
-        stage('Deploy to Production fixed server') {
-            when {
-                branch 'release'
-            }
-            steps {
-                echo 'Deploying release to production'
-                script {
-                    productionImage.push("deploy")
-                    sh """
-                       aws ec2 reboot-instances --region us-east-2 --instance-ids i-07cefeb2ffe967864
-                    """
-                }
-            }
-        }
+        // stage('Deploy to Production fixed server') {
+        //     when {
+        //         branch 'release'
+        //     }
+        //     steps {
+        //         echo 'Deploying release to production'
+        //         script {
+        //             productionImage.push("deploy")
+        //             sh """
+        //                aws ec2 reboot-instances --region us-east-2 --instance-ids i-07cefeb2ffe967864
+        //             """
+        //         }
+        //     }
+        // }
 
         // stage('Integration Tests') {
         //     when {
