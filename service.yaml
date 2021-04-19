@@ -35,7 +35,7 @@ Resources:
         DependsOn: ListenerRule
         Properties:
             Cluster: !Ref Cluster
-            # Role: !Ref ServiceRole
+            Role: !Ref ServiceRole
             DesiredCount: !Ref DesiredCount
             TaskDefinition: !Ref TaskDefinition
             LoadBalancers:
