@@ -79,7 +79,7 @@ pipeline {
 
         stage('Integration Tests') {
             when {
-                branch 'master'
+                branch 'main'
             }
             steps {
                 echo 'Deploy to test environment and run integration tests'
@@ -108,7 +108,7 @@ pipeline {
  
         stage('Deploy to Production') {
             when {
-                branch 'master'
+                branch 'main'
             }
             steps {
                 script {
