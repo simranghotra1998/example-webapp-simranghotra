@@ -77,33 +77,33 @@ pipeline {
             }
         }
 
-        // stage('Integration Tests') {
-        //     when {
-        //         branch 'master'
-        //     }
-        //     steps {
-        //         echo 'Deploy to test environment and run integration tests'
-        //         script {
-        //             TEST_ALB_LISTENER_ARN="arn:aws:elasticloadbalancing:us-east-2:089778365617:listener/app/testing-website/3a4d20158ad2c734/49cb56d533c1772b"
-        //             sh """
-        //             ./run-stack.sh example-webapp-simranghotra-test ${TEST_ALB_LISTENER_ARN}
-        //             """
-        //         }
-        //         echo 'Running tests on the integration test environment'
-        //         script {
-        //             sh """
-        //                curl -v http://testing-website-1317230480.us-east-1.elb.amazonaws.com | grep '<title>Welcome to example-webapp-simranghotra</title>'
-        //                if [ \$? -eq 0 ]
-        //                then
-        //                    echo tests pass
-        //                else
-        //                    echo tests failed
-        //                    exit 1
-        //                fi
-        //             """
-        //         }
-        //     }
-        // }
+        stage('Integration Tests') {
+            when {
+                branch 'master'
+            }
+            steps {
+                echo 'Deploy to test environment and run integration tests'
+                script {
+                    TEST_ALB_LISTENER_ARN="arn:aws:elasticloadbalancing:us-east-2:192687080956:listener/app/testing-website/3809e8d8cacd3fc6/cf53c93534269986"
+                    sh """
+                    ./run-stack.sh example-webapp-simranghotra-test ${TEST_ALB_LISTENER_ARN}
+                    """
+                }
+                echo 'Running tests on the integration test environment'
+                script {
+                    sh """
+                       curl -v http://testing-website-1318363585.us-east-2.elb.amazonaws.com | grep '<title>Welcome to example-webapp</title>'
+                       if [ \$? -eq 0 ]
+                       then
+                           echo tests pass
+                       else
+                           echo tests failed
+                           exit 1
+                       fi
+                    """
+                }
+            }
+        }
 
  
         stage('Deploy to Production') {
