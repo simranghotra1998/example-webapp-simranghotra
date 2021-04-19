@@ -106,18 +106,18 @@ pipeline {
         // }
 
  
-        // stage('Deploy to Production') {
-        //     when {
-        //         branch 'master'
-        //     }
-        //     steps {
-        //         script {
-        //             PRODUCTION_ALB_LISTENER_ARN="arn:aws:elasticloadbalancing:us-east-1:089778365617:listener/app/production-website/a0459c11ab5707ca/5d21528a13519da6"
-        //             sh """
-        //             ./run-stack.sh example-webapp-simranghotra-production ${PRODUCTION_ALB_LISTENER_ARN}
-        //             """
-        //         }
-        //     }
-        // }
+        stage('Deploy to Production') {
+            when {
+                branch 'master'
+            }
+            steps {
+                script {
+                    PRODUCTION_ALB_LISTENER_ARN="arn:aws:elasticloadbalancing:us-east-2:192687080956:listener/app/production-website/61f67e4045d504c4/6fedbb5c57225a37"
+                    sh """
+                    ./run-stack.sh example-webapp-simranghotra-production ${PRODUCTION_ALB_LISTENER_ARN}
+                    """
+                }
+            }
+        }
     }
 }
