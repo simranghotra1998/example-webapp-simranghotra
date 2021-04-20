@@ -83,12 +83,12 @@ pipeline {
             }
             steps {
                 echo 'Deploy to test environment and run integration tests'
-                script {
-                    TEST_ALB_LISTENER_ARN="arn:aws:elasticloadbalancing:us-east-2:192687080956:listener/app/testing-website/3809e8d8cacd3fc6/cf53c93534269986"
-                    sh """
-                    ./run-stack.sh example-webapp-simranghotra-test ${TEST_ALB_LISTENER_ARN}
-                    """
-                }
+                // script {
+                //     TEST_ALB_LISTENER_ARN="arn:aws:elasticloadbalancing:us-east-2:192687080956:listener/app/testing-website/3809e8d8cacd3fc6/cf53c93534269986"
+                //     sh """
+                //     ./run-stack.sh example-webapp-simranghotra-test ${TEST_ALB_LISTENER_ARN}
+                //     """
+                // }
                 echo 'Running tests on the integration test environment'
                 script {
                     sh """
@@ -111,10 +111,22 @@ pipeline {
                 branch 'main'
             }
             steps {
-                script {
-                    PRODUCTION_ALB_LISTENER_ARN="arn:aws:elasticloadbalancing:us-east-2:192687080956:listener/app/production-website/61f67e4045d504c4/6fedbb5c57225a37"
+                // script {
+                //     PRODUCTION_ALB_LISTENER_ARN="arn:aws:elasticloadbalancing:us-east-2:192687080956:listener/app/production-website/61f67e4045d504c4/6fedbb5c57225a37"
+                //     sh """
+                //     ./run-stack.sh example-webapp-simranghotra-production ${PRODUCTION_ALB_LISTENER_ARN}
+                //     """
+                // }
+                 script {
                     sh """
-                    ./run-stack.sh example-webapp-simranghotra-production ${PRODUCTION_ALB_LISTENER_ARN}
+                       curl -v http://production-website-115564367.us-east-2.elb.amazonaws.com | grep '<title>Welcome to example-webapp</title>'
+                       if [ \$? -eq 0 ]
+                       then
+                           echo tests pass
+                       else
+                           echo tests failed
+                           exit 1
+                       fi
                     """
                 }
             }
